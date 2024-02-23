@@ -1,6 +1,7 @@
 <script lang="tsx">
 import { defineComponent, ref, h, compile, computed } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useAppStore } from '@/store'
 import { listenerRouteChange } from '@/utils/route-listener'
 import useMenuTree from './use-menu-tree'
@@ -9,6 +10,7 @@ export default defineComponent({
   emit: ['collapse'],
   setup() {
     const appStore = useAppStore()
+    const router = useRouter()
     const { menuTree } = useMenuTree()
     const collapsed = computed({
       get() {
@@ -21,8 +23,14 @@ export default defineComponent({
     })
 
     const topMenu = computed(() => appStore.topMenu)
-    const openKeys = ref<string[]>([])
-    const selectedKey = ref<string[]>([])
+    const openKeys = ref<string[]>([]) // 当前路由的keys列表['dashboard', 'Workplace']，0为父路由name，1为匹配到的子路由name
+    const selectedKey = ref<string[]>([]) // 匹配到的子路由 name，对应上面的 ['Workplace']
+
+    const goto = (item: RouteRecordRaw) => {
+      router.push({
+        name: item.name
+      })
+    }
 
     const findMenuOpenKeys = (target: string) => {
       const result: string[] = []
@@ -40,9 +48,11 @@ export default defineComponent({
         }
       }
       menuTree.value.forEach((el: RouteRecordRaw) => {
-        if (isFind) return // Performance optimization
+        if (isFind) return // 找到立即返回
         backtrack(el, [el.name as string])
       })
+
+      // 返回当前路由的keys列表['dashboard', 'Workplace']，0为父路由name，1为匹配到的子路由name
       return result
     }
 
@@ -66,7 +76,7 @@ export default defineComponent({
       function travel(_route: RouteRecordRaw[], nodes = []) {
         if (_route) {
           _route.forEach((element) => {
-            // This is demo, modify nodes as needed
+            // 渲染左侧菜单 vnode，根据需要修改
             const icon = element?.meta?.icon ? () => h(compile(`<${element?.meta?.icon}/>`)) : null
             const node =
               element?.children && element?.children.length !== 0 ? (
@@ -80,7 +90,7 @@ export default defineComponent({
                   {travel(element?.children)}
                 </a-sub-menu>
               ) : (
-                <a-menu-item key={element?.name} v-slots={{ icon }}>
+                <a-menu-item key={element?.name} v-slots={{ icon }} onClick={() => goto(element)}>
                   {element?.meta?.title || ''}
                 </a-menu-item>
               )

@@ -27,5 +27,5 @@ export const REDIRECT_MAIN: RouteRecordRaw = {
 export const NOT_FOUND_ROUTE: RouteRecordRaw = {
   path: '/:pathMatch(.*)*',
   name: 'notFound',
-  component: () => import('@/views/not-fount/index.vue')
+  component: () => import('@/views/not-found/index.vue')
 }

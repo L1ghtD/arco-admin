@@ -14,7 +14,7 @@ export default function useMenuTree() {
     }
     return appClientMenus
   })
-  // 返回需要显示的路由列表
+  // 返回需要显示(有权限)的路由列表
   const menuTree = computed(() => {
     const copyRouter = cloneDeep(appRoute.value) as RouteRecordNormalized[]
     // 按 order 从小到大排序

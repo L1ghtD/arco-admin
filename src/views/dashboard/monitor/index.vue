@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="wrapper">工作台页面</div>
+    <Breadcrumb :items="['仪表盘', '监控']" />
+    <div class="wrapper">监控页面</div>
   </div>
 </template>
 
@@ -9,7 +10,7 @@
 <style lang="less" scoped>
 .container {
   background-color: var(--color-fill-2);
-  padding: 16px 20px;
+  padding: 0 20px 20px 20px;
 }
 .wrapper {
   padding: 25px 15px;

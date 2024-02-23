@@ -21,7 +21,7 @@
     </div>
     <ul class="right-side">
       <li>
-        <a-tooltip :content="theme === 'light' ? '黑夜' : '白天'">
+        <a-tooltip :content="theme === 'light' ? '暗色主题' : '亮色主题'">
           <a-button class="nav-btn" type="outline" :shape="'circle'" @click="handleToggleTheme">
             <template #icon>
               <icon-moon-fill v-if="theme === 'dark'" />

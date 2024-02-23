@@ -21,6 +21,7 @@
             <Menu />
           </div>
         </a-layout-sider>
+        <!-- 小屏模式显示左侧弹出菜单 -->
         <a-drawer
           v-if="hideMenu"
           :visible="drawerVisible"
@@ -62,6 +63,7 @@ const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 const permission = usePermission()
+// 响应式，手机/桌面模式
 useResponsive(true)
 const navbarHeight = `60px`
 const navbar = computed(() => appStore.navbar)

@@ -4,6 +4,7 @@ import 'nprogress/nprogress.css'
 
 import { appRoutes } from './routes'
 import { NOT_FOUND_ROUTE, REDIRECT_MAIN } from './routes/base'
+import createRouteGuard from './guard'
 
 NProgress.configure({ showSpinner: false })
 
@@ -27,5 +28,7 @@ const router = createRouter({
     return { top: 0 }
   }
 })
+
+createRouteGuard(router)
 
 export default router

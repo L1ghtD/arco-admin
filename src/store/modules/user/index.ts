@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import useAppStore from '../app'
 import { UserState } from './types'
-import { login as userLogin, logout as userLogout, type LoginData } from '@/api/user'
+import { type LoginData, login as userLogin, logout as userLogout, getUserInfo } from '@/api/user'
 import { setToken, clearToken } from '@/utils/auth'
 import { removeRouteListener } from '@/utils/route-listener'
 
@@ -30,9 +30,21 @@ const useUserStore = defineStore('user', {
       })
     },
 
+    // 设置用户信息
+    setInfo(partial: Partial<UserState>) {
+      this.$patch(partial)
+    },
+
     // 重置用户信息
     resetInfo() {
       this.$reset()
+    },
+
+    // 获取用户信息
+    async info() {
+      const res = await getUserInfo()
+
+      this.setInfo(res.data)
     },
 
     // Login
